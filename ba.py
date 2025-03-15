@@ -10,15 +10,15 @@ import matplotlib.pyplot as plt
 
 # Generate synthetic delivery time data
 np.random.seed(176)
-true_mu = 4.5  # True average delivery time in days
-true_sigma = 1.2  # True standard deviation
-data = np.random.normal(true_mu, true_sigma, size=100)  # Simulated delivery times
+true_mu = 4.5  
+true_sigma = 1.2  
+data = np.random.normal(true_mu, true_sigma, size=100) 
 
 # Define the prior hyperparameters
-prior_mu_mean = 3  # Prior belief: 3 days average delivery time
-prior_mu_precision = 0.5  # Low confidence in prior (high variance)
-prior_sigma_alpha = 2  # Weak prior for sigma
-prior_sigma_beta = 1  # Beta = alpha / beta
+prior_mu_mean = 3 
+prior_mu_precision = 0.5  
+prior_sigma_alpha = 2 
+prior_sigma_beta = 1  
 
 # Update the prior hyperparameters with the data
 posterior_mu_precision = prior_mu_precision + len(data) / true_sigma**2

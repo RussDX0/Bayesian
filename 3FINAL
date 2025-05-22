@@ -6,15 +6,15 @@ Created on Fri May 23 02:07:06 2025
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Generate synthetic Key Performance of Department[PROMOTERS]!
+# Generate synthetic Key Performance of Employee[PROMOTERS]!
 np.random.seed(1999)
-true_mu = 75  
-true_sigma = 2 
-data = np.random.normal(true_mu, true_sigma, size=1000) 
+true_mu = 65  
+true_sigma = 1
+data = np.random.normal(true_mu, true_sigma, size=100) 
 
 # Define the prior hyperparameters
-prior_mu_mean = 68 
-prior_mu_precision = 75500 
+prior_mu_mean = 70 
+prior_mu_precision = 0.25 
 prior_sigma_alpha = 2 
 prior_sigma_beta = 1 
 
@@ -26,8 +26,8 @@ posterior_sigma_alpha = prior_sigma_alpha + len(data) / 2
 posterior_sigma_beta = prior_sigma_beta + np.sum((data - np.mean(data))**2) / 2
 
 # Calculate the posterior distributions
-posterior_mu = np.random.normal(posterior_mu_mean, 1 / np.sqrt(posterior_mu_precision), size=1820)
-posterior_sigma = np.random.gamma(posterior_sigma_alpha, 1 / posterior_sigma_beta, size=1820)
+posterior_mu = np.random.normal(posterior_mu_mean, 1 / np.sqrt(posterior_mu_precision), size=10000)
+posterior_sigma = np.random.gamma(posterior_sigma_alpha, 1 / posterior_sigma_beta, size=10000)
 
 # Plot the posterior distributions
 plt.figure(figsize=(10, 4))

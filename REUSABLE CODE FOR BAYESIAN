@@ -27,7 +27,7 @@ def bayesian_analyst():
                 except ValueError:
                     print("Please enter a valid number.")
     
-    # Generate synthetic Employee Exit Data!
+# Generate synthetic Random Data!
     def new_data(seed=list_of_variable['key'], 
                  true_mu=list_of_variable['true_mu'], 
                  true_sigma=list_of_variable['true_sigma'], 

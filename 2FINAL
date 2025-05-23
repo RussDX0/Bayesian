@@ -39,7 +39,7 @@ plt.ylabel('Density')
 
 plt.subplot(1, 2, 2)
 plt.hist(posterior_sigma, bins=30, density=True, color='lightgreen', edgecolor='black')
-plt.title('Posterior Distribution of Monthly Employee Exit (σ)')
+plt.title('Posterior Distribution of Monthly Employee Exit variability (σ)')
 plt.xlabel('Standard Deviation (#Employee)')
 plt.ylabel('Density')
 

@@ -39,7 +39,7 @@ plt.ylabel('Density')
 
 plt.subplot(1, 2, 2)
 plt.hist(posterior_sigma, bins=30, density=True, color='lightgreen', edgecolor='black')
-plt.title('Posterior Distribution of Daily Customer Feedback (σ)')
+plt.title('Posterior Distribution of Daily Customer Feedback variability (σ)')
 plt.xlabel('Standard Deviation (#Promoters)')
 plt.ylabel('Density')
 

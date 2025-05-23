@@ -1,0 +1,99 @@
+"""
+Created on Fri May 23 02:07:06 2025
+                    REUSABLE CODE FOR BAYESIAN
+FINAL EXAM FOR BAYESIAN ANALYSIS
+@author: Russell Talarion
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+
+def bayesian_analyst():
+    list_of_variable = {'key':0, 'true_mu':0, 'true_sigma':0, 'size_for_current_data':0}
+    list_of_variable1 = {'prior_mu_mean':0, 'prior_mu_precision':0, 'size_for_posterior':0, 'graph_title_for_μ':'a', 'x_axis_(μ)':'b', 'you_trying_to_measure':'c', 'graph_title_for_σ':'d'}
+    variable = {'list_of_variable':list_of_variable, 'list_of_variable1':list_of_variable1}
+    for var in variable:
+        for inside_val in variable[var]:
+            while True:
+                try:
+                    current_value = variable[var][inside_val]
+                    if isinstance(current_value, str):
+                        if inside_val == 'you_trying_to_measure':
+                            variable[var][inside_val] = input(f"What are {inside_val}? ")
+                        else:
+                            variable[var][inside_val] = input(f"What is the {inside_val}? ")
+                    else:
+                        variable[var][inside_val] = float(input(f"What is the {inside_val}? "))
+                    break
+                except ValueError:
+                    print("Please enter a valid number.")
+    
+    # Generate synthetic Employee Exit Data!
+    def new_data(seed=list_of_variable['key'], 
+                 true_mu=list_of_variable['true_mu'], 
+                 true_sigma=list_of_variable['true_sigma'], 
+                 size=list_of_variable['size_for_current_data']):
+        np.random.seed(int(seed))
+        mu = true_mu  
+        sigma = true_sigma
+        data = np.random.normal(mu, sigma, int(size))
+        return true_sigma, data
+    
+    # Define the prior hyperparameters
+    def historical_data(prior_mu_mean=list_of_variable1['prior_mu_mean'], 
+                        prior_mu_precision=list_of_variable1['prior_mu_precision'], 
+                        alpha=2, beta=1):
+        mean = prior_mu_mean 
+        precision = prior_mu_precision
+        prior_sigma_alpha = alpha 
+        prior_sigma_beta = beta 
+        return mean, precision, prior_sigma_alpha, prior_sigma_beta
+    
+    true_sigma, data = new_data()
+    prior_mu_mean, prior_mu_precision, alpha, beta = historical_data()
+      
+    # Update the prior hyperparameters with the data
+    posterior_mu_precision = prior_mu_precision + len(data) / true_sigma**2
+    posterior_mu_mean = (prior_mu_precision * prior_mu_mean + np.sum(data)) / posterior_mu_precision
+    
+    posterior_sigma_alpha = alpha + len(data) / 2
+    posterior_sigma_beta = beta + np.sum((data - np.mean(data))**2) / 2
+    
+    # Calculate the posterior distributions
+    posterior_mu = np.random.normal(posterior_mu_mean, 1 / np.sqrt(posterior_mu_precision), size=int(list_of_variable1['size_for_posterior']))
+    posterior_sigma = np.random.gamma(posterior_sigma_alpha, 1 / posterior_sigma_beta, size=int(list_of_variable1['size_for_posterior']))
+    
+    # Plot the posterior distributions
+    plt.figure(figsize=(10, 4))
+    plt.subplot(1, 2, 1)
+    plt.hist(posterior_mu, bins=30, density=True, color='skyblue', edgecolor='black')
+    plt.title(f"Posterior Distribution of {list_of_variable1['graph_title_for_μ']} (μ)")
+    plt.xlabel(f"{list_of_variable1['x_axis_(μ)']} ({list_of_variable1['you_trying_to_measure']})")
+    plt.ylabel('Density')
+    
+    plt.subplot(1, 2, 2)
+    plt.hist(posterior_sigma, bins=30, density=True, color='lightgreen', edgecolor='black')
+    plt.title(f"Posterior Distribution of {str(list_of_variable1['graph_title_for_σ'])} variability (σ)")
+    plt.xlabel(f"Standard Deviation ({str(list_of_variable1['you_trying_to_measure'])})")
+    plt.ylabel('Density')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Calculate summary statistics
+    mean_mu = np.mean(posterior_mu)
+    std_mu = np.std(posterior_mu)
+    print("Estimated Mean:", mean_mu)
+    print("Standard Deviation of Estimated Mean:", std_mu)
+    
+    mean_sigma = np.mean(posterior_sigma)
+    std_sigma = np.std(posterior_sigma)
+    print("Estimated Standard Deviation:", mean_sigma)
+    print("Standard Deviation of Estimated Sigma:", std_sigma)
+    
+    decision = input("\nDo you want to make another analysis? (yes/no): ").strip().lower()
+    if decision == "yes":
+        bayesian_analyst()
+    else:
+        print("Analysis complete. Goodbye!")
+        
+bayesian_analyst()
